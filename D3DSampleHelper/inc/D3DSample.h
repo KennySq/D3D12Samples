@@ -57,12 +57,12 @@ protected:
 	uint mWidth;
 	uint mHeight;
 
-private:
-	ComPtr<ID3D12Device5> mDevice;
-	ComPtr<IDXGISwapChain4> mSwapChain;
-
-
 	float mAspectRatio;
+
+private:
+	ComPtr<ID3D12Device> mDevice;
+	ComPtr<IDXGISwapChain3> mSwapChain;
+
 
 	std::string mAppName;
 };

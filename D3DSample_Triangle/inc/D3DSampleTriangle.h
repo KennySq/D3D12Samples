@@ -1,6 +1,8 @@
 #pragma once
 #include"inc/D3DSample.h"
 
+#pragma comment(lib, "D3DSampleHelper.lib")
+
 using namespace DirectX;
 
 class D3DSampleTriangle : public D3DSample
@@ -29,11 +31,21 @@ private:
 	ComPtr<ID3D12DescriptorHeap> mRtvHeap;
 	uint mRtvDescSize;
 
+	ComPtr<ID3D12Resource> mVertexBuffer;
+	D3D12_VERTEX_BUFFER_VIEW mVertexBufferView;
+
+	ComPtr<ID3D12Resource> mIndexBuffer;
+
+
+
 	ComPtr<ID3D12CommandQueue> mCommandQueue;
 	ComPtr<ID3D12CommandAllocator> mCommandAllocator;
 	ComPtr<ID3D12RootSignature> mRootSignature;
 	ComPtr<ID3D12PipelineState> mPipelineState;
 	ComPtr<ID3D12GraphicsCommandList> mCommandList;
+
+	D3D12_VIEWPORT mViewport;
+	D3D12_RECT mScissorRect;
 
 	ComPtr<ID3D12Fence> mFence;
 	uint mFrameIndex;

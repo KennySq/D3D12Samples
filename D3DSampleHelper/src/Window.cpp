@@ -16,7 +16,6 @@ int Window::Start(D3DSample* sample, HINSTANCE handleInst, int nCmdShow)
 	RegisterClassEx(&winClass);
 
 	RECT winRect = { 0,0, static_cast<long>(sample->GetWidth()), static_cast<long>(sample->GetHeight()) };
-
 	AdjustWindowRect(&winRect, WS_OVERLAPPEDWINDOW, false);
 
 	mHandle = CreateWindow(winClass.lpszClassName, sample->GetName(), WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, winRect.right - winRect.left, winRect.bottom - winRect.top, nullptr, nullptr, handleInst, sample);
@@ -26,7 +25,14 @@ int Window::Start(D3DSample* sample, HINSTANCE handleInst, int nCmdShow)
 		throw std::runtime_error("failed to init window handle.");
 	}
 
+	sample->Awake();
 	sample->Start();
+
+	ShowWindow(mHandle, nCmdShow);
+
+
+
+
 
 	MSG msg{};
 
@@ -44,7 +50,7 @@ int Window::Start(D3DSample* sample, HINSTANCE handleInst, int nCmdShow)
 	return static_cast<char>(msg.wParam);
 }
 
-LRESULT __stdcall Window::WinProc(HWND hwnd, uint message, WPARAM wParam, LPARAM lParam)
+LRESULT __stdcall Window::WinProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	D3DSample* sample = reinterpret_cast<D3DSample*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
 	// GWLP_USERDATA?? WTF.
@@ -54,9 +60,9 @@ LRESULT __stdcall Window::WinProc(HWND hwnd, uint message, WPARAM wParam, LPARAM
 	case WM_CREATE:
 	{
 		LPCREATESTRUCT createStruct = reinterpret_cast<LPCREATESTRUCT>(lParam);
-		SetWindowLongPtr(hwnd, GWLP_USERDATA, reinterpret_cast<long>(createStruct->lpCreateParams));
+		SetWindowLongPtr(hwnd, GWLP_USERDATA, reinterpret_cast<long long>(createStruct->lpCreateParams));
 	}
-	break;
+	return 0;
 
 	case WM_KEYDOWN:
 	{
@@ -64,9 +70,8 @@ LRESULT __stdcall Window::WinProc(HWND hwnd, uint message, WPARAM wParam, LPARAM
 		{
 			sample->GetKeyDown(static_cast<byte>(wParam));
 		}
-		break;
 	}
-	break;
+	return 0;
 
 	case WM_KEYUP:
 	{
@@ -75,7 +80,7 @@ LRESULT __stdcall Window::WinProc(HWND hwnd, uint message, WPARAM wParam, LPARAM
 			sample->GetKeyUp(static_cast<byte>(lParam));
 		}
 	}
-	break;
+	return 0;
 
 	case WM_PAINT:
 	{
@@ -86,14 +91,13 @@ LRESULT __stdcall Window::WinProc(HWND hwnd, uint message, WPARAM wParam, LPARAM
 		}
 
 	}
-	break;
+	return 0;
 
 	case WM_DESTROY:
 	{
 		PostQuitMessage(0);
-		return 0;
 	}
-	break;
+	return 0;
 	}
 
 	return DefWindowProc(hwnd, message, wParam, lParam);

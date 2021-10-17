@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.31410.357
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "D3DSampleHelper", "D3DSampleHelper\D3DSampleHelper.vcxproj", "{B0DE5A6E-AD24-4509-811E-C954FC571DEE}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "D3DSample_Triangle", "D3DSample_Triangle\D3DSample_Triangle.vcxproj", "{7A1A2822-A2BB-494A-A26C-2124E0B6B402}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{B0DE5A6E-AD24-4509-811E-C954FC571DEE}.Release|x64.Build.0 = Release|x64
 		{B0DE5A6E-AD24-4509-811E-C954FC571DEE}.Release|x86.ActiveCfg = Release|Win32
 		{B0DE5A6E-AD24-4509-811E-C954FC571DEE}.Release|x86.Build.0 = Release|Win32
+		{7A1A2822-A2BB-494A-A26C-2124E0B6B402}.Debug|x64.ActiveCfg = Debug|x64
+		{7A1A2822-A2BB-494A-A26C-2124E0B6B402}.Debug|x64.Build.0 = Debug|x64
+		{7A1A2822-A2BB-494A-A26C-2124E0B6B402}.Debug|x86.ActiveCfg = Debug|Win32
+		{7A1A2822-A2BB-494A-A26C-2124E0B6B402}.Debug|x86.Build.0 = Debug|Win32
+		{7A1A2822-A2BB-494A-A26C-2124E0B6B402}.Release|x64.ActiveCfg = Release|x64
+		{7A1A2822-A2BB-494A-A26C-2124E0B6B402}.Release|x64.Build.0 = Release|x64
+		{7A1A2822-A2BB-494A-A26C-2124E0B6B402}.Release|x86.ActiveCfg = Release|Win32
+		{7A1A2822-A2BB-494A-A26C-2124E0B6B402}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

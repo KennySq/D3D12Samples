@@ -19,7 +19,7 @@ void D3DSample::AcquireHardware(IDXGIFactory1* factory, IDXGIAdapter1** outAdapt
 {
 	HRESULT result;
 
-	outAdapter = nullptr;
+	*outAdapter = nullptr;
 
 	ComPtr<IDXGIAdapter1> adapter;
 	ComPtr<IDXGIFactory6> factory6;
@@ -31,23 +31,18 @@ void D3DSample::AcquireHardware(IDXGIFactory1* factory, IDXGIAdapter1** outAdapt
 		throw std::runtime_error("failed to query factory6 interface.");
 	}
 
-
-	DXGI_GPU_PREFERENCE highPerformance = true ? DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE : DXGI_GPU_PREFERENCE_UNSPECIFIED;
 	uint itr = 0;
-	uint count = 0;
 	do
 	{
-		count = factory6->EnumAdapterByGpuPreference(itr, highPerformance, IID_PPV_ARGS(&adapter));
+		result = factory6->EnumAdapterByGpuPreference(itr, requestHighPerformance == true ? DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE : DXGI_GPU_PREFERENCE_UNSPECIFIED, IID_PPV_ARGS(&adapter));
 		
-		DXGI_ADAPTER_DESC1 desc;
-
-		adapter->GetDesc1(&desc);
+		DXGI_ADAPTER_DESC1 desc{};
+		Throw(adapter->GetDesc1(&desc));
 		
 		if (desc.Flags & DXGI_ADAPTER_FLAG_SOFTWARE)
 		{
 			continue;
 		}
-
 		
 		result = D3D12CreateDevice(adapter.Get(), D3D_FEATURE_LEVEL_11_0, __uuidof(ID3D12Device4), nullptr);
 		if (result == S_OK)
@@ -56,7 +51,7 @@ void D3DSample::AcquireHardware(IDXGIFactory1* factory, IDXGIAdapter1** outAdapt
 		}
 
 		itr++;
-	} while (itr < count);
+	} while (result != S_OK);
 	
 
 	if (adapter.Get() == nullptr)

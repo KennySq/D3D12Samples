@@ -10,7 +10,7 @@ public:
 
 	static HWND GetHandle() { return mHandle; }
 private:
-	static LRESULT __stdcall WinProc(HWND hwnd, uint message, WPARAM wParam, LPARAM lParam);
+	static LRESULT __stdcall WinProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 	static HWND mHandle;
 
